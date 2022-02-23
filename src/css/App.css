@@ -1,0 +1,19 @@
+@import "AddToDo.css";
+
+body {
+  margin: 0
+}
+
+.App {
+  background-color: rgb(75, 247, 250);
+  height:100vh;
+}
+
+.ToDo-Border {
+  display: flex;
+  border: 1px solid black;
+  width: 50%;
+  justify-content: center;
+  margin: auto;
+  height:fit-content 
+}
