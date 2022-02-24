@@ -1,3 +1,94 @@
 .Add-Todo-Border {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 4rem;
+    
+}
+
+.Add-ToDo-divider{
+    display: flex;
+    flex-direction: column;
+}
+
+.Add-Todo-Toggle{ 
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:auto;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+    width: fit-content;
+    margin-bottom:1rem
+}
+.Add-Todo-Toggle:hover{
+    color:#f9f9f9;
+    background-color: rgb(137, 243, 249);
+    cursor: pointer;
+}
+
+.ToDo-form-wrapper {
+    width: 50%;
+    margin: auto;
     border: 1px solid black;
+    border-radius: 25px;
+    background-color: rgb(137, 243, 249);
+    
+}
+
+.ToDo-form {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    
+    
+}
+
+.ToDo-Form-title-wrapper{
+    /* margin-top: 1rem;
+    margin-left: 1rem */
+    margin-top: 1rem;
+    display:flex;
+    justify-content: center;
+    
+}
+
+.ToDo-Form-title-wrapper label {
+    margin-right: 1rem;
+}
+
+.ToDo-Form-text-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.ToDo-Form-text-wrapper label{
+    margin-left: 1rem;
+}
+
+.Todo-Description-Text{
+    padding: 10px;
+    max-width: 100%;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px rgb(0, 0, 0);
+    height: 80px;
+    margin: 1rem;
+}
+
+.Submit-ToDo{
+    width:fit-content;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.Submit-ToDo:hover{
+    cursor: pointer;
 }

@@ -1,0 +1,13 @@
+.ToDo-Display-Border{
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 25px;
+    width: 80%;
+    margin: auto
+}
+
+.Individual-ToDo-Wrapper{
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 25px;
+}
