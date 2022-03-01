@@ -22,7 +22,7 @@ const toDoSample: ToDo[] = [
   {
     id: 2,
     title: "Guided meditation daily",
-    description: "Good for the nerves and in line with your new years resolution"
+    description: "Good for the nerves and in line with your new years resolution. Also lets extend this out to see how it fits in with the page"
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ function App() {
         <Header heading={heading} />
         <AddToDo setToDoList={setToDoList} toDoList={toDoList} />
         <div className="ToDo-Display-Border">
-          {toDoList.length > 0 ? <ToDoDisplay toDoList={toDoList} /> : <ToDoNullListDisplay />}
+          {toDoList.length > 0 ? <ToDoDisplay setToDoList={setToDoList} toDoList={toDoList} /> : <ToDoNullListDisplay />}
         </div>
       </div>
     </div>

@@ -10,4 +10,33 @@
     border: 1px solid black;
     padding: 1rem;
     border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.Individual-ToDo-Content-Wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.Individual-ToDo-btn-Wrapper{
+    margin-left: auto;
+ 
+ display:flex;
+ flex-direction: row;
+}
+.delete-ToDo-btn{
+    background-color: red;
+    color: white;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.edit-ToDo-btn{
+    background-color: rgb(0, 242, 255);
+    color: white;
+    height: fit-content;
+    cursor: pointer;
+
 }

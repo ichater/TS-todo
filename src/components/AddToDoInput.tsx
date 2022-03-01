@@ -1,32 +1,36 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ToDo } from '../App';
-import { ToDoNullListDisplay } from './ToDoNullListDisplay';
 
-export interface IAppProps {
+
+export interface AddToDoInputProps {
     setToDoList: Dispatch<SetStateAction<ToDo[]>>
     toDoList: ToDo[]
 }
 
-export function AddToDoInput(props: IAppProps) {
-    const submitToDo = (e, toDo: toDo) => {
-        (
-            props.setToDoList([...props.toDoList])
-        )
-        e.preventDefault()
+export function AddToDoInput(props: AddToDoInputProps) {
+
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
+
+    const submitToDo = (e: any) => {
+        e.preventDefault();
+        console.log([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
+        return props.setToDoList([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
     }
+
 
     return (
         <div className="ToDo-form-wrapper">
             <form className="ToDo-form"
-                onSubmit={() => submitToDo(e,
-                    { id: 10, title: "test", description: "test" })
-                } >
+                onSubmit={e => submitToDo(e)} >
                 <div className="ToDo-Form-title-wrapper">
                     <label>ToDo title:</label>
                     <input
                         type="text"
                         placeholder='ToDo title'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
                 <br />
@@ -35,12 +39,15 @@ export function AddToDoInput(props: IAppProps) {
                     <textarea
                         className="Todo-Description-Text"
                         id="description"
-                        name="description" />
+                        name="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                 </div>
                 <input
                     className="Submit-ToDo"
                     type="submit"
-                    value="Submit"
+                    value="submit"
                 />
             </form>
         </div>
