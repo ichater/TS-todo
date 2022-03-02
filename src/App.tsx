@@ -4,6 +4,7 @@ import { AddToDo } from './components/AddToDo'
 import './css/App.css';
 import { ToDoDisplay } from './components/ToDoListDisplay'
 import { ToDoNullListDisplay } from './components/ToDoNullListDisplay'
+import { ToDoContextProvider } from './context/ToDoContext'
 
 const heading = "Todo List"
 
@@ -32,14 +33,20 @@ const toDoSample: ToDo[] = [
 
 function App() {
   const [toDoList, setToDoList] = useState(toDoSample)
+
+  const handleAddToDo = (newToDo: ToDo): void => {
+    setToDoList([...toDoList, newToDo])
+  }
   return (
     <div className="App">
       <div className="ToDo-Border">
         <Header heading={heading} />
-        <AddToDo setToDoList={setToDoList} toDoList={toDoList} />
-        <div className="ToDo-Display-Border">
-          {toDoList.length > 0 ? <ToDoDisplay setToDoList={setToDoList} toDoList={toDoList} /> : <ToDoNullListDisplay />}
-        </div>
+        <ToDoContextProvider>
+          <AddToDo setToDoList={setToDoList} toDoList={toDoList} />
+          <div className="ToDo-Display-Border">
+            {toDoList.length > 0 ? <ToDoDisplay setToDoList={setToDoList} toDoList={toDoList} /> : <ToDoNullListDisplay />}
+          </div>
+        </ToDoContextProvider>
       </div>
     </div>
   );

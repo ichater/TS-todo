@@ -15,7 +15,6 @@ export function AddToDoInput(props: AddToDoInputProps) {
 
     const submitToDo = (e: any) => {
         e.preventDefault();
-        console.log([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
         return props.setToDoList([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
     }
 
