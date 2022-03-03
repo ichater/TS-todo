@@ -1,35 +1,35 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ToDo } from '../App';
+import { useContext } from 'react';
+import { TodoContext, ToDoContextInterface } from '../context/ToDoContext';
 
 
-export interface AddToDoInputProps {
-    setToDoList: Dispatch<SetStateAction<ToDo[]>>
-    toDoList: ToDo[]
-}
 
-export function AddToDoInput(props: AddToDoInputProps) {
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+export function AddToDoInput() {
 
-    const submitToDo = (e: any) => {
-        e.preventDefault();
-        return props.setToDoList([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
-    }
+    // const [title, setTitle] = useState("")
+    // const [description, setDescription] = useState("")
+
+    // const submitToDo = (e: any) => {
+    //     e.preventDefault();
+    //     return props.setToDoList([...props.toDoList, { id: props.toDoList.length + 1, title: title, description: description }])
+    // }
+    const toDoContext: ToDoContextInterface = useContext(TodoContext)
 
 
     return (
         <div className="ToDo-form-wrapper">
             <form className="ToDo-form"
-                onSubmit={e => submitToDo(e)} >
+                onSubmit={e => toDoContext.handleSubmitToDo(e)} >
                 <div className="ToDo-Form-title-wrapper">
                     <label>ToDo title:</label>
                     <input
                         type="text"
                         placeholder='ToDo title'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        value={toDoContext.title}
+                        onChange={(e) => toDoContext.setTitle(e.target.value)}
                     />
                 </div>
                 <br />
@@ -39,8 +39,8 @@ export function AddToDoInput(props: AddToDoInputProps) {
                         className="Todo-Description-Text"
                         id="description"
                         name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={toDoContext.description}
+                        onChange={(e) => toDoContext.setDescription(e.target.value)}
                     />
                 </div>
                 <input

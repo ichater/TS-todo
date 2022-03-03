@@ -1,14 +1,10 @@
 import { AddToDoInput } from './AddToDoInput'
-import { Dispatch, SetStateAction, useState } from 'react'
-import { ToDo } from '../App';
+import { useState } from 'react'
 
-export interface AddToDoProps {
-    setToDoList: Dispatch<SetStateAction<ToDo[]>>
-    toDoList: ToDo[]
-}
 
-export function AddToDo(props: AddToDoProps) {
+export function AddToDo() {
     const [toggleToDoView, setToggleToDoView] = useState(false)
+
     return (
         <div className="Add-Todo-Border">
             <div className="Add-ToDo-divider">
@@ -18,10 +14,7 @@ export function AddToDo(props: AddToDoProps) {
                 </div>
                 {toggleToDoView ?
                     <div className="Add-Todo-input-wrapper">
-                        <AddToDoInput
-                            toDoList={props.toDoList}
-                            setToDoList={props.setToDoList}
-                        />
+                        <AddToDoInput />
                     </div> : null}
             </div>
         </div>
