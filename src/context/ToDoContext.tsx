@@ -7,11 +7,14 @@ export interface ToDoContextInterface {
     toDoSample: ToDo[];
     handleAddToDo: (newToDo: ToDo) => void;
     handleSubmitToDo: (e: any) => void;
-    deleteToDo: (id: number) => void | null;
+    handleDeleteToDo: (id: number) => void | null;
+    handleEditToDo: (id: number) => void | null;
     title: string;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
     description: string;
     setDescription: React.Dispatch<React.SetStateAction<string>>;
+    toggleToDoView: boolean;
+    setToggleToDoView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TodoContext = createContext<ToDoContextInterface>(null!)
@@ -39,14 +42,16 @@ export function ToDoContextProvider({ children }: Props) {
 
 
     const [toDoList, setToDoList] = useState(toDoSample)
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    const [title, setTitle] = useState<string>("")
+    const [description, setDescription] = useState<string>("")
+    const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
+
 
     const handleAddToDo = (newToDo: ToDo): void => {
         setToDoList([...toDoList, newToDo])
     }
 
-    const deleteToDo = (id: number): void | null =>
+    const handleDeleteToDo = (id: number): void | null =>
         toDoList.filter(toDo => toDo.id === id).length > 0 ?
             setToDoList(toDoList.filter(toDo => toDo.id !== id)) : null
 
@@ -55,16 +60,30 @@ export function ToDoContextProvider({ children }: Props) {
         return setToDoList([...toDoList, { id: toDoList.length + 1, title: title, description: description }])
     }
 
-    const toDoContextProps = {
+    const handleEditToDo = (id: number): void | null => {
+        const setEditToDoState = (toDo: ToDo) => {
+            setToggleToDoView(true)
+            setTitle(toDo.title)
+            return toDo.description ? setDescription(toDo.description) : null
+        }
+
+        return toDoList.filter(toDo => toDo.id === id).length > 0 ?
+            setEditToDoState(toDoList[id - 1]) : null
+    }
+
+    const toDoContextProps: ToDoContextInterface = {
         toDoList,
         toDoSample,
         handleAddToDo,
         handleSubmitToDo,
-        deleteToDo,
+        handleDeleteToDo,
+        handleEditToDo,
         title,
         setTitle,
         description,
-        setDescription
+        setDescription,
+        toggleToDoView,
+        setToggleToDoView
     }
 
 

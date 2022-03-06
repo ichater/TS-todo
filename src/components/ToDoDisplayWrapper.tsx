@@ -7,13 +7,13 @@ import { TodoContext, ToDoContextInterface } from '../context/ToDoContext';
 
 
 
-export const TodoDisplayWrapper: React.FunctionComponent = (props) => {
-    const toDoContext: ToDoContextInterface = useContext(TodoContext)
+export const TodoDisplayWrapper: React.FunctionComponent = () => {
+    const { toDoList }: ToDoContextInterface = useContext(TodoContext)
 
     return <>
         <AddToDo />
         <div className="ToDo-Display-Border">
-            {toDoContext.toDoList.length > 0 ? <ToDoDisplay /> : <ToDoNullListDisplay />}
+            {toDoList.length > 0 ? <ToDoDisplay /> : <ToDoNullListDisplay />}
         </div> </>
 };
 

@@ -1,9 +1,11 @@
 import { AddToDoInput } from './AddToDoInput'
-import { useState } from 'react'
+import { useContext } from 'react';
+import { TodoContext, ToDoContextInterface } from '../context/ToDoContext';
 
 
 export function AddToDo() {
-    const [toggleToDoView, setToggleToDoView] = useState(false)
+    // const [toggleToDoView, setToggleToDoView] = useState(false)
+    const { setToggleToDoView, toggleToDoView }: ToDoContextInterface = useContext(TodoContext)
 
     return (
         <div className="Add-Todo-Border">
