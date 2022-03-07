@@ -9,13 +9,17 @@ export interface ToDoContextInterface {
     handleSubmitToDo: (e: any) => void;
     handleDeleteToDo: (id: number) => void | null;
     handleEditToDo: (id: number) => void | null;
-    title: string;
-    setTitle: React.Dispatch<React.SetStateAction<string>>;
-    description: string;
-    setDescription: React.Dispatch<React.SetStateAction<string>>;
     toggleToDoView: boolean;
     setToggleToDoView: React.Dispatch<React.SetStateAction<boolean>>;
-    handleToDoInputAlso: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => void
+    handleToDoInputAlso: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => void,
+    toDoForm: {
+        title: string;
+        description?: string;
+    },
+    setToDoForm: React.Dispatch<React.SetStateAction<{
+        title: string;
+        description?: string;
+    }>>
 }
 
 export const TodoContext = createContext<ToDoContextInterface>(null!)
@@ -41,11 +45,15 @@ export function ToDoContextProvider({ children }: Props) {
     ]
 
 
-
-    const [toDoList, setToDoList] = useState(toDoSample)
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
     const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
+    const [toDoList, setToDoList] = useState(toDoSample)
+
+
+    const [toDoForm, setToDoForm] = useState<{
+        title: string;
+        description?: string;
+    }>({ title: "", description: "" })
+
 
 
     const handleAddToDo = (newToDo: ToDo): void => {
@@ -59,14 +67,18 @@ export function ToDoContextProvider({ children }: Props) {
 
     const handleSubmitToDo = (e: any) => {
         e.preventDefault();
-        return setToDoList([...toDoList, { id: toDoList.length + 1, title: title, description: description }])
+        console.log(toDoList)
+        return setToDoList([...toDoList, { id: toDoList.length + 1, title: toDoForm.title, description: toDoForm.description }])
+
     }
 
     const handleEditToDo = (id: number): void | null => {
         const setEditToDoState = (toDo: ToDo) => {
             setToggleToDoView(true)
-            setTitle(toDo.title)
-            return toDo.description ? setDescription(toDo.description) : setDescription("")
+            setToDoForm(toDoForm => ({ ...toDoForm, title: toDo.title }))
+            toDo.description ?
+                setToDoForm(toDoForm => ({ ...toDoForm, description: toDo.description })) :
+                setToDoForm(toDoForm => ({ ...toDoForm, description: "" }))
         }
 
         return toDoList.filter(toDo => toDo.id === id).length > 0 ?
@@ -76,10 +88,10 @@ export function ToDoContextProvider({ children }: Props) {
     const handleToDoInputAlso = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => {
         switch (inputType) {
             case "title":
-                setTitle(e.target.value)
+                setToDoForm(toDoForm => ({ ...toDoForm, title: e.target.value }))
                 break
             case "description":
-                setDescription(e.target.value)
+                setToDoForm(toDoForm => ({ ...toDoForm, description: e.target.value }))
                 break
             default:
                 console.log("unhandled input type")
@@ -93,13 +105,11 @@ export function ToDoContextProvider({ children }: Props) {
         handleSubmitToDo,
         handleDeleteToDo,
         handleEditToDo,
-        title,
-        setTitle,
-        description,
-        setDescription,
         toggleToDoView,
         setToggleToDoView,
-        handleToDoInputAlso
+        handleToDoInputAlso,
+        toDoForm,
+        setToDoForm
     }
 
 
