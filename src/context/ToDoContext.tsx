@@ -15,7 +15,7 @@ export interface ToDoContextInterface {
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     toggleToDoView: boolean;
     setToggleToDoView: React.Dispatch<React.SetStateAction<boolean>>;
-    handleToDoInputAlso: (e: React.ChangeEvent<HTMLInputElement>, inputType: string) => void
+    handleToDoInputAlso: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => void
 }
 
 export const TodoContext = createContext<ToDoContextInterface>(null!)
@@ -43,8 +43,8 @@ export function ToDoContextProvider({ children }: Props) {
 
 
     const [toDoList, setToDoList] = useState(toDoSample)
-    const [title, setTitle] = useState<string>("")
-    const [description, setDescription] = useState<string>("")
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
     const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
 
 
@@ -73,13 +73,13 @@ export function ToDoContextProvider({ children }: Props) {
             setEditToDoState(toDoList[id - 1]) : null
     }
 
-    const handleToDoInputAlso = (value: string, inputType: string) => {
+    const handleToDoInputAlso = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => {
         switch (inputType) {
             case "title":
-                setTitle(value)
+                setTitle(e.target.value)
                 break
             case "description":
-                setDescription(value)
+                setDescription(e.target.value)
                 break
             default:
                 console.log("unhandled input type")
