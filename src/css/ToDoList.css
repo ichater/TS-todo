@@ -22,10 +22,20 @@
 
 .Individual-ToDo-btn-Wrapper{
     margin-left: auto;
- 
- display:flex;
- flex-direction: row;
+    height:fit-content;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
+
+
+.complete-ToDo-btn{
+    background-color: rgb(77, 255, 0);
+    color: white;
+    height: fit-content;
+    cursor:pointer;
+    grid-column: 1 / -1;
+}
+
 .delete-ToDo-btn{
     background-color: red;
     color: white;
@@ -39,4 +49,8 @@
     height: fit-content;
     cursor: pointer;
 
+}
+
+.todo-completed{
+    text-decoration: line-through;
 }

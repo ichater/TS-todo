@@ -1,26 +1,44 @@
 import * as React from 'react';
-import { Dispatch, SetStateAction } from 'react';
+import { useContext, useState } from 'react';
 import { ToDo } from '../App';
+import { TodoContext, ToDoContextInterface } from '../context/ToDoContext'
 
 export interface IToDoIndividualDisplayProps {
     toDo: ToDo
-    setToDoList: Dispatch<SetStateAction<ToDo[]>>
-    deleteToDo: (id: number) => void
 }
 
 export function ToDoIndividualDisplay(props: IToDoIndividualDisplayProps) {
+    const { handleEditToDo, handleDeleteToDo }:
+        ToDoContextInterface = useContext(TodoContext)
+    const [completedToDo, setCompletedTodo] = useState<boolean>(false)
+
+
+
     return (
         <div className="Individual-ToDo-Wrapper">
             <div className="Individual-ToDo-Content-Wrapper">
-                <h3>{props.toDo.title}</h3>
-                <div>{props.toDo.description}</div>
+                <div className={completedToDo ? "todo-completed" : "todo-pending"}>
+                    <h3>{props.toDo.title}</h3>
+                    <div>{props.toDo.description}</div>
+                </div>
             </div>
             <div className="Individual-ToDo-btn-Wrapper">
-                <button className="edit-ToDo-btn">Edit</button>
+
+                <button className="edit-ToDo-btn"
+                    onClick={() => handleEditToDo(props.toDo.id)}
+                >Edit</button>
                 <button className="delete-ToDo-btn"
-                    onClick={() => props.deleteToDo(props.toDo.id)}
+                    onClick={() => {
+                        const confirmBox = window.confirm(
+                            "Do you really want to delete this Todo?"
+                        )
+                        return confirmBox ? handleDeleteToDo(props.toDo.id) : null
+                    }}
                 >X</button>
+                <button className="complete-ToDo-btn"
+                    onClick={() => setCompletedTodo(completedToDo => !completedToDo)}
+                >Complete</button>
             </div>
-        </div>
+        </div >
     );
 }
