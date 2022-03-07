@@ -48,8 +48,6 @@ export function ToDoContextProvider({ children }: Props) {
 
     const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
     const [toDoList, setToDoList] = useState<ToDo[]>(toDoSample)
-
-
     const [toDoForm, setToDoForm] = useState<{
         title: string;
         description?: string;
@@ -72,12 +70,9 @@ export function ToDoContextProvider({ children }: Props) {
         const existingToDo = toDoList.filter(toDo => toDo.title === toDoForm.title)
         const newToDo = { id: uuidv4(), title: toDoForm.title, description: toDoForm.description }
 
-        // console.log(existingToDo)
-        if (existingToDo.length > 0) {
-            return setToDoList([...toDoList.filter(toDo => toDo.title !== toDoForm.title), newToDo])
-        } else {
-            return setToDoList([...toDoList, newToDo])
-        }
+        existingToDo.length > 0 ?
+            setToDoList([...toDoList.filter(toDo => toDo.title !== toDoForm.title), newToDo]) :
+            setToDoList([...toDoList, newToDo])
     }
 
     const handleEditToDo = (id: string): void | null => {
