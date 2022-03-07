@@ -28,7 +28,12 @@ export function ToDoIndividualDisplay(props: IToDoIndividualDisplayProps) {
                     onClick={() => handleEditToDo(props.toDo.id)}
                 >Edit</button>
                 <button className="delete-ToDo-btn"
-                    onClick={() => handleDeleteToDo(props.toDo.id)}
+                    onClick={() => {
+                        const confirmBox = window.confirm(
+                            "Do you really want to delete this Todo?"
+                        )
+                        return confirmBox ? handleDeleteToDo(props.toDo.id) : null
+                    }}
                 >X</button>
                 <button className="complete-ToDo-btn"
                     onClick={() => setCompletedTodo(completedToDo => !completedToDo)}

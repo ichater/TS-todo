@@ -15,6 +15,7 @@ export interface ToDoContextInterface {
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     toggleToDoView: boolean;
     setToggleToDoView: React.Dispatch<React.SetStateAction<boolean>>;
+    handleToDoInputAlso: (e: React.ChangeEvent<HTMLInputElement>, inputType: string) => void
 }
 
 export const TodoContext = createContext<ToDoContextInterface>(null!)
@@ -55,6 +56,7 @@ export function ToDoContextProvider({ children }: Props) {
         toDoList.filter(toDo => toDo.id === id).length > 0 ?
             setToDoList(toDoList.filter(toDo => toDo.id !== id)) : null
 
+
     const handleSubmitToDo = (e: any) => {
         e.preventDefault();
         return setToDoList([...toDoList, { id: toDoList.length + 1, title: title, description: description }])
@@ -64,11 +66,24 @@ export function ToDoContextProvider({ children }: Props) {
         const setEditToDoState = (toDo: ToDo) => {
             setToggleToDoView(true)
             setTitle(toDo.title)
-            return toDo.description ? setDescription(toDo.description) : null
+            return toDo.description ? setDescription(toDo.description) : setDescription("")
         }
 
         return toDoList.filter(toDo => toDo.id === id).length > 0 ?
             setEditToDoState(toDoList[id - 1]) : null
+    }
+
+    const handleToDoInputAlso = (value: string, inputType: string) => {
+        switch (inputType) {
+            case "title":
+                setTitle(value)
+                break
+            case "description":
+                setDescription(value)
+                break
+            default:
+                console.log("unhandled input type")
+        }
     }
 
     const toDoContextProps: ToDoContextInterface = {
@@ -83,7 +98,8 @@ export function ToDoContextProvider({ children }: Props) {
         description,
         setDescription,
         toggleToDoView,
-        setToggleToDoView
+        setToggleToDoView,
+        handleToDoInputAlso
     }
 
 
