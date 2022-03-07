@@ -6,7 +6,7 @@ import { TodoDisplayWrapper } from './components/ToDoDisplayWrapper'
 const heading = "Todo List"
 
 export interface ToDo {
-  id: number,
+  id: string,
   title: string,
   description?: string
 }
