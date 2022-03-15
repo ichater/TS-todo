@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import { ToDo } from './../App'
 import { v4 as uuidv4 } from 'uuid';
 import { off } from "process";
+import { idText } from "typescript";
 
 
 export interface ToDoContextInterface {
@@ -46,13 +47,16 @@ export function ToDoContextProvider({ children }: Props) {
         },
     ]
 
-
-    const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
-    const [toDoList, setToDoList] = useState<ToDo[]>(toDoSample)
-    const [toDoForm, setToDoForm] = useState<{
+    type StateForm = {
+        id?: string;
         title: string;
         description?: string;
-    }>({ title: "", description: "" })
+    }
+    const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
+    const [toDoList, setToDoList] = useState<ToDo[]>(toDoSample)
+
+    const emptyToDoForm: StateForm = { id: "", title: "", description: "" }
+    const [toDoForm, setToDoForm] = useState<StateForm>(emptyToDoForm)
 
 
 
@@ -67,28 +71,24 @@ export function ToDoContextProvider({ children }: Props) {
 
     const handleSubmitToDo = (e: any) => {
         e.preventDefault();
-
-        const existingToDo = toDoList.filter(toDo => toDo.title === toDoForm.title)
-        const newToDo = { id: uuidv4(), title: toDoForm.title, description: toDoForm.description }
-
-        if (existingToDo.length > 0) {
-            const existingIndex = toDoList.findIndex(e => e.title === newToDo.title)
-            const restOfToDos = toDoList.filter(toDo => toDo.title !== toDoForm.title)
-            console.log(restOfToDos.splice(0, 0, newToDo))
-
-            setToDoList([...toDoList.filter(toDo => toDo.title !== toDoForm.title), newToDo])
+        const isEdit = (stateForm: StateForm): stateForm is ToDo => stateForm.id !== "";
+        if (isEdit(toDoForm)) {
+            const existingIndex = toDoList.findIndex(e => e.id === toDoForm.id)
+            const newToDoArr = toDoList
+            newToDoArr[existingIndex] = toDoForm
+            setToDoList(newToDoArr)
         } else {
-            setToDoList([...toDoList, newToDo])
+            const newToDo = { id: uuidv4(), title: toDoForm.title, description: toDoForm.description }
+            toDoList.push(newToDo)
+            setToDoList(toDoList)
         }
+        setToDoForm(emptyToDoForm)
     }
 
     const handleEditToDo = (id: string): void | null => {
         const setEditToDoState = (toDo: ToDo) => {
             setToggleToDoView(true)
-            setToDoForm(toDoForm => ({ ...toDoForm, title: toDo.title }))
-            toDo.description ?
-                setToDoForm(toDoForm => ({ ...toDoForm, description: toDo.description })) :
-                setToDoForm(toDoForm => ({ ...toDoForm, description: "" }))
+            setToDoForm(toDo)
         }
 
         const existingToDo = toDoList.filter(toDo => toDo.id === id)
