@@ -1,14 +1,11 @@
 import React, { createContext, useState } from "react";
 import { ToDo } from './../App'
 import { v4 as uuidv4 } from 'uuid';
-import { off } from "process";
-import { idText } from "typescript";
 
 
 export interface ToDoContextInterface {
     toDoList: ToDo[];
     toDoSample: ToDo[];
-    handleAddToDo: (newToDo: ToDo) => void;
     handleSubmitToDo: (e: any) => void;
     handleDeleteToDo: (id: string) => void | null;
     handleEditToDo: (id: string) => void | null;
@@ -52,6 +49,7 @@ export function ToDoContextProvider({ children }: Props) {
         title: string;
         description?: string;
     }
+
     const [toggleToDoView, setToggleToDoView] = useState<boolean>(false)
     const [toDoList, setToDoList] = useState<ToDo[]>(toDoSample)
 
@@ -60,17 +58,20 @@ export function ToDoContextProvider({ children }: Props) {
 
 
 
-    const handleAddToDo = (newToDo: ToDo): void => {
-        setToDoList([...toDoList, newToDo])
-    }
-
     const handleDeleteToDo = (id: string): void | null =>
         toDoList.filter(toDo => toDo.id === id).length > 0 ?
             setToDoList(toDoList.filter(toDo => toDo.id !== id)) : null
 
 
-    const handleSubmitToDo = (e: any) => {
+    const handleSubmitToDo = (e: any): void => {
         e.preventDefault();
+
+        if (toDoForm.title !== "") submitToDo()
+
+        setToDoForm(emptyToDoForm)
+    }
+
+    const submitToDo = () => {
         const isEdit = (stateForm: StateForm): stateForm is ToDo => stateForm.id !== "";
         if (isEdit(toDoForm)) {
             const existingIndex = toDoList.findIndex(e => e.id === toDoForm.id)
@@ -78,11 +79,10 @@ export function ToDoContextProvider({ children }: Props) {
             newToDoArr[existingIndex] = toDoForm
             setToDoList(newToDoArr)
         } else {
-            const newToDo = { id: uuidv4(), title: toDoForm.title, description: toDoForm.description }
+            const newToDo: ToDo = { id: uuidv4(), ...toDoForm }
             toDoList.push(newToDo)
             setToDoList(toDoList)
         }
-        setToDoForm(emptyToDoForm)
     }
 
     const handleEditToDo = (id: string): void | null => {
@@ -113,7 +113,6 @@ export function ToDoContextProvider({ children }: Props) {
     const toDoContextProps: ToDoContextInterface = {
         toDoList,
         toDoSample,
-        handleAddToDo,
         handleSubmitToDo,
         handleDeleteToDo,
         handleEditToDo,
