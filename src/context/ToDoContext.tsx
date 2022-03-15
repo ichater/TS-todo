@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { ToDo } from './../App'
 import { v4 as uuidv4 } from 'uuid';
+import { off } from "process";
 
 
 export interface ToDoContextInterface {
@@ -12,7 +13,7 @@ export interface ToDoContextInterface {
     handleEditToDo: (id: string) => void | null;
     toggleToDoView: boolean;
     setToggleToDoView: React.Dispatch<React.SetStateAction<boolean>>;
-    handleToDoInputAlso: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => void,
+    handleToDoInput: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => void,
     toDoForm: {
         title: string;
         description?: string;
@@ -70,9 +71,15 @@ export function ToDoContextProvider({ children }: Props) {
         const existingToDo = toDoList.filter(toDo => toDo.title === toDoForm.title)
         const newToDo = { id: uuidv4(), title: toDoForm.title, description: toDoForm.description }
 
-        existingToDo.length > 0 ?
-            setToDoList([...toDoList.filter(toDo => toDo.title !== toDoForm.title), newToDo]) :
+        if (existingToDo.length > 0) {
+            const existingIndex = toDoList.findIndex(e => e.title === newToDo.title)
+            const restOfToDos = toDoList.filter(toDo => toDo.title !== toDoForm.title)
+            console.log(restOfToDos.splice(0, 0, newToDo))
+
+            setToDoList([...toDoList.filter(toDo => toDo.title !== toDoForm.title), newToDo])
+        } else {
             setToDoList([...toDoList, newToDo])
+        }
     }
 
     const handleEditToDo = (id: string): void | null => {
@@ -90,7 +97,7 @@ export function ToDoContextProvider({ children }: Props) {
             setEditToDoState(existingToDo[0]) : null
     }
 
-    const handleToDoInputAlso = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => {
+    const handleToDoInput = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, inputType: string) => {
         switch (inputType) {
             case "title":
                 setToDoForm(toDoForm => ({ ...toDoForm, title: e.target.value }))
@@ -112,7 +119,7 @@ export function ToDoContextProvider({ children }: Props) {
         handleEditToDo,
         toggleToDoView,
         setToggleToDoView,
-        handleToDoInputAlso,
+        handleToDoInput,
         toDoForm,
         setToDoForm
     }

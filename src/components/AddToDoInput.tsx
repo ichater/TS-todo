@@ -7,7 +7,7 @@ import { TodoContext, ToDoContextInterface } from '../context/ToDoContext';
 
 export function AddToDoInput() {
 
-    const { handleSubmitToDo, toDoForm, handleToDoInputAlso }: ToDoContextInterface = useContext(TodoContext)
+    const { handleSubmitToDo, toDoForm, handleToDoInput }: ToDoContextInterface = useContext(TodoContext)
 
 
     return (
@@ -21,7 +21,7 @@ export function AddToDoInput() {
                         name="title"
                         placeholder='ToDo title'
                         value={toDoForm.title}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleToDoInputAlso(e, "title")}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleToDoInput(e, "title")}
                     ></input>
                 </div>
                 <br />
@@ -32,7 +32,7 @@ export function AddToDoInput() {
                         id="description"
                         name="description"
                         value={toDoForm.description}
-                        onChange={(e) => handleToDoInputAlso(e, "description")}
+                        onChange={(e) => handleToDoInput(e, "description")}
                     />
                 </div>
                 <input
